@@ -101,7 +101,7 @@ for param in gpt.final_norm.parameters():
     param.requires_grad = True 
 
 inputs = tokenizer.encode("Do you have time")
-inputs = torch.tensor(inputs).unsqueeze(0)
+inputs = torch.tensor(inputs).unsqueeze(0).to(device)
 print(inputs.shape, inputs)
 
 with torch.no_grad():
