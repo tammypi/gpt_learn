@@ -107,27 +107,27 @@ class LayerNorm(nn.Module):
         norm_x = (x - mean) / torch.sqrt(var + self.eps)
         return self.scale * norm_x + self.shift
 
-import tiktoken
+# import tiktoken
 
-tokenizer = tiktoken.get_encoding("gpt2")
-batch = []
-txt1 = "Every effort moves you"
-txt2 = "Every day holds a"
+# tokenizer = tiktoken.get_encoding("gpt2")
+# batch = []
+# txt1 = "Every effort moves you"
+# txt2 = "Every day holds a"
 
-batch.append(torch.tensor(tokenizer.encode(txt1)))
-batch.append(torch.tensor(tokenizer.encode(txt2)))
+# batch.append(torch.tensor(tokenizer.encode(txt1)))
+# batch.append(torch.tensor(tokenizer.encode(txt2)))
 
-batch = torch.stack(batch, dim=0)
+# batch = torch.stack(batch, dim=0)
 
-torch.manual_seed(123)
-model = GPTModel(GPT_CONFIG_124M)
-out = model(batch)
-print(batch)
-print(out.shape)
-print(out)
+# torch.manual_seed(123)
+# model = GPTModel(GPT_CONFIG_124M)
+# out = model(batch)
+# print(batch)
+# print(out.shape)
+# print(out)
 
-total_params = sum(p.numel() for p in model.parameters())
-print(f"{total_params:,}")
+# total_params = sum(p.numel() for p in model.parameters())
+# print(f"{total_params:,}")
 
 def generate_text_simple(model, idx, max_new_tokens, context_size):
     for _ in range(max_new_tokens):
@@ -140,18 +140,18 @@ def generate_text_simple(model, idx, max_new_tokens, context_size):
         idx = torch.cat((idx, idx_next), dim=1)
     return idx
 
-start_context = "Hello, I am"
-encoded = tokenizer.encode(start_context)
-encoded_tensor = torch.tensor(encoded).unsqueeze(0)
-model.eval()
-out = generate_text_simple(
-    model=model,
-    idx=encoded_tensor,
-    max_new_tokens=6,
-    context_size=GPT_CONFIG_124M["context_length"]
-)
+# start_context = "Hello, I am"
+# encoded = tokenizer.encode(start_context)
+# encoded_tensor = torch.tensor(encoded).unsqueeze(0)
+# model.eval()
+# out = generate_text_simple(
+#     model=model,
+#     idx=encoded_tensor,
+#     max_new_tokens=6,
+#     context_size=GPT_CONFIG_124M["context_length"]
+# )
 
-print(out)
+# print(out)
 
-decoded_text = tokenizer.decode(out.squeeze(0).tolist())
-print(decoded_text)
+# decoded_text = tokenizer.decode(out.squeeze(0).tolist())
+# print(decoded_text)
