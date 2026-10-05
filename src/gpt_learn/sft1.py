@@ -207,7 +207,7 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device,
 import time 
 start_time = time.time()
 torch.manual_seed(123)
-optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5, weight_decay=0.1)
+optimizer = torch.optim.AdamW(gpt.parameters(), lr=1e-5, weight_decay=0.1)
 num_epochs = 5
 
 train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier_simple(
