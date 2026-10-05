@@ -18,6 +18,11 @@ cd gpt_learn
 
 # 安装依赖（自动创建 .venv）
 uv sync
+
+# 如果cuda不是enable状态，运行如下命令
+uv pip install torch torchvision torchaudio \
+  --index-url https://download.pytorch.org/whl/cu124 \
+  --reinstall
 ```
 
 ## 运行示例
@@ -41,6 +46,9 @@ python gpt.py
 
 # 训练脚本
 python train.py
+
+# 加载gpt2权重直接测试版本
+python use_gpt2.py
 ```
 
 ## 项目结构
@@ -56,7 +64,8 @@ gpt_learn/
 │       ├── attention.py          # MultiHeadAttention（生产版）
 │       ├── tokenizer.py          # 分词 + Embedding
 │       ├── gpt.py                # GPT 模型 + 文本生成
-│       └── train.py              # 训练脚本
+│       ├── train.py              # 训练脚本
+│       ├── use_gpt2.py           # 使用gpt2权重脚本
 │       └── the-verdict.txt       # 训练语料（《The Verdict》）
 └── README.md
 ```
