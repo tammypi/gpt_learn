@@ -49,6 +49,15 @@ python train.py
 
 # 加载gpt2权重直接测试版本
 python use_gpt2.py
+
+# 处理垃圾邮件数据集用于微调
+python sft1_dataset.py
+
+# 修改gpt模型并进行垃圾邮件二分类微调
+python sft1.py
+
+# 加载垃圾邮件二分类模型用于测试
+python sft1_test.py
 ```
 
 ## 项目结构
@@ -66,6 +75,9 @@ gpt_learn/
 │       ├── gpt.py                # GPT 模型 + 文本生成
 │       ├── train.py              # 训练脚本
 │       ├── use_gpt2.py           # 使用gpt2权重脚本
+│       ├── sft1_dataset.py       # 处理垃圾邮件数据集用于微调
+│       ├── sft1.py               # 修改gpt模型并进行垃圾邮件二分类微调
+│       ├── sft1_test.py          # 加载垃圾邮件二分类模型用于测试
 │       └── the-verdict.txt       # 训练语料（《The Verdict》）
 └── README.md
 ```
