@@ -81,9 +81,11 @@ settings, params = download_and_load_gpt2(
     model_size="124M", models_dir="gpt2"
 )
 
+device = "cuda"
+
 gpt = GPTModel(GPT_CONFIG_124M)
 load_weights_into_gpt(gpt, params)
-gpt.to("cuda")
+gpt.to(device)
 
 # 将线性输出层替换，之前是从embed_dim映射到词表大小，现在则改为映射到2 
 
