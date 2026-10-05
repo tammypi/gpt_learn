@@ -19,7 +19,7 @@ model.eval()
 import tiktoken
 
 def text_to_token_ids(text, tokenizer):
-    encoded = tokenizer.encode(text, allowed_special={'<|endtotext|>'})
+    encoded = tokenizer.encode(text, allowed_special={'<|endoftext|>'})
     encoded_tensor = torch.tensor(encoded).unsqueeze(0)
     return encoded_tensor
 

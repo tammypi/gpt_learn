@@ -20,7 +20,6 @@ GPT_CONFIG_124M = {
 }
 
 gpt = GPTModel(GPT_CONFIG_124M)
-gpt.to("cuda")
 gpt.eval()
 
 def assign(left, right):
@@ -89,7 +88,7 @@ def load_weights_into_gpt(gpt, params):
     gpt.out_head.weight = assign(gpt.out_head.weight, params["wte"])
 
 def text_to_token_ids(text, tokenizer):
-    encoded = tokenizer.encode(text, allowed_special={'<|endtotext|>'})
+    encoded = tokenizer.encode(text, allowed_special={'<|endoftext|>'})
     encoded_tensor = torch.tensor(encoded).unsqueeze(0)
     return encoded_tensor
 
@@ -98,6 +97,8 @@ def token_ids_to_text(token_ids, tokenizer):
     return tokenizer.decode(flat.tolist())
 
 load_weights_into_gpt(gpt, params)
+gpt.to("cuda")
+
 tokenizer = tiktoken.get_encoding("gpt2")
 
 token_ids = generate_text_simple(
