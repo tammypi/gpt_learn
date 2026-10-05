@@ -3,9 +3,9 @@ import torch
 import tiktoken
 from torch.utils.data import Dataset, DataLoader
 from gpt import GPTModel
-from use_gpt2 import load_weights_into_gpt, GPT_CONFIG_124M
+from use_gpt2 import load_weights_into_gpt, GPT_CONFIG_124M, text_to_token_ids, token_ids_to_text
 from gpt import generate_text_simple
-from gpt_download import download_and_load_gpt2, text_to_token_ids, token_ids_to_text
+from gpt_download import download_and_load_gpt2
 
 tokenizer = tiktoken.get_encoding("gpt2")
 
