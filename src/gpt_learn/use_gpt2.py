@@ -19,8 +19,8 @@ GPT_CONFIG_124M = {
     "qkv_bias": True 
 }
 
-gpt = GPTModel(GPT_CONFIG_124M)
-gpt.eval()
+# gpt = GPTModel(GPT_CONFIG_124M)
+# gpt.eval()
 
 def assign(left, right):
     if left.shape != right.shape:
@@ -96,16 +96,16 @@ def token_ids_to_text(token_ids, tokenizer):
     flat = token_ids.squeeze(0)
     return tokenizer.decode(flat.tolist())
 
-load_weights_into_gpt(gpt, params)
-gpt.to("cuda")
+# load_weights_into_gpt(gpt, params)
+# gpt.to("cuda")
 
-tokenizer = tiktoken.get_encoding("gpt2")
+# tokenizer = tiktoken.get_encoding("gpt2")
 
-token_ids = generate_text_simple(
-    model=gpt,
-    idx=text_to_token_ids("I am ", tokenizer),
-    max_new_tokens=200,
-    context_size=GPT_CONFIG_124M["context_length"]
-)
+# token_ids = generate_text_simple(
+#     model=gpt,
+#     idx=text_to_token_ids("I am ", tokenizer),
+#     max_new_tokens=200,
+#     context_size=GPT_CONFIG_124M["context_length"]
+# )
 
-print(token_ids_to_text(token_ids, tokenizer))
+# print(token_ids_to_text(token_ids, tokenizer))
