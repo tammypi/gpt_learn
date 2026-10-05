@@ -123,7 +123,7 @@ def calc_accuracy_loader(data_loader, model, device, num_batches=None):
     for i, (input_batch, target_batch) in enumerate(data_loader):
         if i < num_batches:
             input_batch = input_batch.to(device)
-            output_batch = output_batch.to(device)
+            target_batch = target_batch.to(device)
             with torch.no_grad():
                 logits = gpt(input_batch)[:, -1, :]
             predict_labels = torch.argmax(logits, dim=-1)
