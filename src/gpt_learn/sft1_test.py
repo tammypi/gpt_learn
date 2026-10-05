@@ -5,13 +5,27 @@ from torch.utils.data import Dataset, DataLoader
 from gpt import GPTModel
 from use_gpt2 import load_weights_into_gpt, GPT_CONFIG_124M, text_to_token_ids, token_ids_to_text
 from gpt import generate_text_simple
+from gpt_download import download_and_load_gpt2
 
 tokenizer = tiktoken.get_encoding("gpt2")
+
+settings, params = download_and_load_gpt2(
+    model_size="124M", models_dir="gpt2"
+)
+
 device = "cuda"
 
 gpt = GPTModel(GPT_CONFIG_124M)
-model_state_dict = torch.load("./spam_classifier.pth", map_location="cuda")
+load_weights_into_gpt(gpt, params)
+
+# 修改线性输出层
+gpt.out_head = torch.nn.Linear(GPT_CONFIG_124M["emb_dim"], 2)
+
+# 加载微调权重
+model_state_dict = torch.load("./spam_classifier.pth", map_location=device)
 gpt.load_state_dict(model_state_dict)
+gpt.to(device)
+gpt.eval()
 
 def classify_review(
     text, model, tokenizer, device, max_length=None, pad_token_ids=50256
