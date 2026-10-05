@@ -49,5 +49,5 @@ text_1 = (
     " selected to receive $1000 cash or a $2000 award."
 )
 
-print(classify_review(text_1))
+print(classify_review(text_1, gpt, tokenizer))
 
