@@ -20,6 +20,7 @@ GPT_CONFIG_124M = {
 }
 
 gpt = GPTModel(GPT_CONFIG_124M)
+gpt.to("cuda")
 gpt.eval()
 
 def assign(left, right):
