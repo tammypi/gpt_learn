@@ -85,4 +85,26 @@ gpt = GPTModel(GPT_CONFIG_124M)
 load_weights_into_gpt(gpt, params)
 gpt.to("cuda")
 
-print(gpt)
+# 将线性输出层替换，之前是从embed_dim映射到词表大小，现在则改为映射到2 
+
+torch.manual_seed(123)
+num_classes = 2 
+gpt.out_head = torch.nn.Linear(
+    in_features=GPT_CONFIG_124M["emb_dim"],
+    out_features=num_classes
+)
+
+# 让最终归一化层和最后一个transformers块可训练
+for param in gpt.trf_blocks[-1].parameters():
+    param.requires_grad = True 
+for param in gpt.final_norm.parameters():
+    param.requires_grad = True 
+
+inputs = tokenizer.encode("Do you have time")
+inputs = torch.tensor(inputs).unsqueeze(0)
+print(inputs.shape, inputs)
+
+with torch.no_grad():
+    outputs = gpt(inputs)
+
+print(outputs.shape, outputs)
