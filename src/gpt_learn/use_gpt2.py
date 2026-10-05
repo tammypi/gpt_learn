@@ -20,7 +20,6 @@ GPT_CONFIG_124M = {
 }
 
 gpt = GPTModel(GPT_CONFIG_124M)
-gpt.to("cuda")
 gpt.eval()
 
 def assign(left, right):
@@ -102,7 +101,7 @@ tokenizer = tiktoken.get_encoding("gpt2")
 
 token_ids = generate_text_simple(
     model=gpt,
-    idx=text_to_token_ids("Every effort moves you", tokenizer),
+    idx=text_to_token_ids("I am ", tokenizer),
     max_new_tokens=10,
     context_size=GPT_CONFIG_124M["context_length"]
 )
