@@ -38,6 +38,9 @@ python tokenizer.py
 
 # GPT 模型骨架 + 文本生成
 python gpt.py
+
+# 训练脚本
+python train.py
 ```
 
 ## 项目结构
@@ -53,6 +56,7 @@ gpt_learn/
 │       ├── attention.py          # MultiHeadAttention（生产版）
 │       ├── tokenizer.py          # 分词 + Embedding
 │       ├── gpt.py                # GPT 模型 + 文本生成
+│       └── train.py              # 训练脚本
 │       └── the-verdict.txt       # 训练语料（《The Verdict》）
 └── README.md
 ```

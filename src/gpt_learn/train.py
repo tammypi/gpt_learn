@@ -142,10 +142,10 @@ def train_model_simple(model, train_loader, val_loader,
                 print(f"Ep {epoch+1} Step {global_step}: "
                       f"Train loss {train_loss:.3f} "
                       f"Val loss {val_loss: .3f} ")
-            generate_and_print_sample(
-                model, tokenizer, device, start_context
-            )
-        return train_losses, val_losses, track_token_seen
+        generate_and_print_sample(
+            model, tokenizer, device, start_context
+        )
+    return train_losses, val_losses, track_token_seen
 
 def evaluate_model(model, train_loader, val_loader, device, eval_iter):
     model.eval()
@@ -158,13 +158,13 @@ def evaluate_model(model, train_loader, val_loader, device, eval_iter):
 def generate_and_print_sample(model, tokenizer, device, start_context):
     model.eval()
     context_size = model.pos_emb.weight.shape[0]
-    encoded = text_to_token_ids(start_context, tokenizer),to(device)
+    encoded = text_to_token_ids(start_context, tokenizer).to(device)
     with torch.no_grad():
         token_ids = generate_text_simple(
             model=model, idx=encoded,
             max_new_tokens=50, context_size=context_size
         )
-    decoded_text = token_ids_to_text(token_ids)
+    decoded_text = token_ids_to_text(token_ids, tokenizer)
     print(decoded_text.replace("\n", " "))
     model.train()
 
