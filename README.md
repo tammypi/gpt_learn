@@ -9,6 +9,8 @@
 ```bash
 # 安装 uv（如已装可跳过）
 curl -LsSf https://astral.sh/uv/install.sh | sh
+# 如果很慢，换成
+pip install uv -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 # 克隆本仓库
 git clone https://github.com/tammypi/gpt_learn.git
