@@ -219,3 +219,7 @@ train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier
 end_time = time.time()
 execution_time = (end_time - start_time) / 60
 print(f"time waste: {execution_time}")
+
+# 保存模型
+torch.save(gpt.state_dict(), "spam_classifier.pth")
+print("model saved")
