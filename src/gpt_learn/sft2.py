@@ -37,6 +37,7 @@ class InstructionDataset(Dataset):
     def __init__(self, data, tokenizer):
         self.data = data 
         self.encoded_texts = []
+        self.instruction_lengths = []
         for entry in data:
             instruction_plus_input = format_input(entry)
             response_text = f"\n\n### Response:\n{entry['output']}"
@@ -44,9 +45,10 @@ class InstructionDataset(Dataset):
             self.encoded_texts.append(
                 tokenizer.encode(full_text)
             )
+            self.instruction_lengths.append(len(tokenizer.encode(instruction_plus_input)))
 
     def __getitem__(self, index):
-        return self.encoded_texts[index]
+        return self.encoded_texts[index], self.instruction_lengths[index]
 
     def __len__(self):
         return len(self.data)
@@ -61,7 +63,7 @@ def custom_collate_fn(
     batch_max_length = max(len(item) for item in batch)
     inputs_lst, targets_lst = [], []
 
-    for item in batch:
+    for (item, instruction_length)  in batch:
         new_item = item.copy()
         new_item += [pad_token_id]
 
@@ -75,6 +77,10 @@ def custom_collate_fn(
         indices = torch.nonzero(mask).squeeze()
         if indices.numel() > 1:
             targets[indices[1:]] = ignore_index
+
+        # 只让 response 参与 loss（targets 相对 inputs 右移一位，所以减 1）
+        if instruction_length is not None:
+            targets[:instruction_length - 1] = ignore_index
 
         if allowed_max_length is not None:
             inputs = inputs[:allowed_max_length]
@@ -183,7 +189,7 @@ torch.manual_seed(123)
 optimizer = torch.optim.AdamW(
     model.parameters(), lr=0.00005, weight_decay=0.1
 )
-num_epochs = 2
+num_epochs = 4
 
 train_losses, val_losses, token_seen = train_model_simple(
     model,
@@ -195,17 +201,3 @@ train_losses, val_losses, token_seen = train_model_simple(
 end_time = time.time()
 execution_time = (end_time-start_time)/60
 print(f"waste time: {execution_time}")
-
-# 训练后打印输出
-
-torch.manual_seed(123)
-input_text = format_input(val_data[0])
-print("input:\n", input_text)
-
-token_ids = generate_text_simple(
-    model=model,
-    idx=text_to_token_ids(input_text, tokenizer),
-    max_new_tokens=35,
-    context_size=BASIC_CONFIG["context_length"]
-)
-print("output:\n", token_ids_to_text(token_ids, tokenizer))
