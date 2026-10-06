@@ -60,7 +60,7 @@ def custom_collate_fn(
     allowed_max_length=None,
     device="CUDA"
 ):
-    batch_max_length = max(len(item) for item in batch)
+    batch_max_length = max(len(item[0]) for item in batch)
     inputs_lst, targets_lst = [], []
 
     for (item, instruction_length)  in batch:
