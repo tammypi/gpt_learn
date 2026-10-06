@@ -154,7 +154,7 @@ model.eval()
 
 torch.manual_seed(123)
 input_text = format_input(val_data[0])
-print(input_text)
+print("input:\n", input_text)
 
 token_ids = generate_text_simple(
     model=model,
@@ -162,7 +162,7 @@ token_ids = generate_text_simple(
     max_new_tokens=35,
     context_size=BASIC_CONFIG["context_length"]
 )
-print(token_ids_to_text(token_ids, tokenizer))
+print("output:\n", token_ids_to_text(token_ids, tokenizer))
 
 # 训练
 
@@ -177,7 +177,7 @@ num_epochs = 2
 train_losses, val_losses, token_seen = train_model_simple(
     model,
     train_loader, val_loader, optimizer, device,
-    num_epochs=num_epochs, eval_freq=5, eval_iter=5,
+    num_epochs=num_epochs, eval_freqs=5, eval_iter=5,
     start_context=format_input(val_data[0]), tokenizer=tokenizer
 )
 
@@ -189,7 +189,7 @@ print(f"waste time: {execution_time}")
 
 torch.manual_seed(123)
 input_text = format_input(val_data[0])
-print(input_text)
+print("input:\n", input_text)
 
 token_ids = generate_text_simple(
     model=model,
@@ -197,4 +197,4 @@ token_ids = generate_text_simple(
     max_new_tokens=35,
     context_size=BASIC_CONFIG["context_length"]
 )
-print(token_ids_to_text(token_ids, tokenizer))
+print("output:\n", token_ids_to_text(token_ids, tokenizer))
