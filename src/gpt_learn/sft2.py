@@ -158,7 +158,7 @@ print(input_text)
 
 token_ids = generate_text_simple(
     model=model,
-    idx=text_to_token_ids(input, tokenizer),
+    idx=text_to_token_ids(input_text, tokenizer),
     max_new_tokens=35,
     context_size=BASIC_CONFIG["context_length"]
 )
@@ -193,7 +193,7 @@ print(input_text)
 
 token_ids = generate_text_simple(
     model=model,
-    idx=text_to_token_ids(input, tokenizer),
+    idx=text_to_token_ids(input_text, tokenizer),
     max_new_tokens=35,
     context_size=BASIC_CONFIG["context_length"]
 )
