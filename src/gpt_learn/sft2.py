@@ -191,3 +191,17 @@ train_losses, val_losses, token_seen = train_model_simple(
 end_time = time.time()
 execution_time = (end_time-start_time)/60
 print(f"waste time: {execution_time}")
+
+# 训练后用测试集数据测试一下
+model.eval()
+torch.manual_seed(123)
+input_text = format_input(test_data[0])
+print("input:\n", input_text)
+
+token_ids = generate_text_simple(
+    model=model,
+    idx=text_to_token_ids(input_text, tokenizer),
+    max_new_tokens=35,
+    context_size=BASIC_CONFIG["context_length"]
+)
+print("output:\n", token_ids_to_text(token_ids, tokenizer))
