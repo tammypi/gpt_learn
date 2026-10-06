@@ -6,7 +6,7 @@ from functools import partial
 from gpt_download import download_and_load_gpt2
 from gpt import GPTModel, generate_text_simple
 from use_gpt2 import load_weights_into_gpt
-from train import text_to_token_ids, token_ids_to_text
+from train import text_to_token_ids, token_ids_to_text, calc_loss_loader, train_model_simple
 
 with open("./instruction-data.json", "r") as f:
     data = json.loads(f.read())
@@ -143,12 +143,49 @@ BASIC_CONFIG = {
 
 settings, params = download_and_load_gpt2(
     model_size="355M",
-    model_dir="gpt2"
+    models_dir="gpt2"
 )
 
 model = GPTModel(BASIC_CONFIG)
 load_weights_into_gpt(model, params)
 model.eval()
+
+# 训练前打印输出
+
+torch.manual_seed(123)
+input_text = format_input(val_data[0])
+print(input_text)
+
+token_ids = generate_text_simple(
+    model=model,
+    idx=text_to_token_ids(input, tokenizer),
+    max_new_tokens=35,
+    context_size=BASIC_CONFIG["context_length"]
+)
+print(token_ids_to_text(token_ids, tokenizer))
+
+# 训练
+
+import time 
+start_time = time.time()
+torch.manual_seed(123)
+optimizer = torch.optim.AdamW(
+    model.parameters(), lr=0.00005, weight_decay=0.1
+)
+num_epochs = 2
+
+train_losses, val_losses, token_seen = train_model_simple(
+    model,
+    train_loader, val_loader, optimizer, device,
+    num_epochs=num_epochs, eval_freq=5, eval_iter=5,
+    start_context=format_input(val_data[0]), tokenizer=tokenizer
+)
+
+end_time = time.time()
+execution_time = (end_time-start_time)/60
+print(f"waste time: {execution_time}")
+
+# 训练后打印输出
 
 torch.manual_seed(123)
 input_text = format_input(val_data[0])
