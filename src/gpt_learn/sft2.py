@@ -39,7 +39,7 @@ class InstructionDataset(Dataset):
         self.encoded_texts = []
         for entry in data:
             instruction_plus_input = format_input(entry)
-            response_text = "\n\n### Response:\n{entry['output']}"
+            response_text = f"\n\n### Response:\n{entry['output']}"
             full_text = instruction_plus_input + response_text
             self.encoded_texts.append(
                 tokenizer.encode(full_text)
@@ -83,8 +83,8 @@ def custom_collate_fn(
         inputs_lst.append(inputs)
         targets_lst.append(targets)
 
-    inputs_tensor = torch.tensor(inputs_lst).to(device)
-    targests_tensor = torch.tensor(targets_lst).to(device)
+    inputs_tensor = torch.stack(inputs_lst).to(device)
+    targests_tensor = torch.stack(targets_lst).to(device)
     return inputs_tensor, targests_tensor
 
 device = "cuda"
@@ -105,7 +105,7 @@ train_dataset = InstructionDataset(train_data, tokenizer)
 train_loader = DataLoader(
     train_dataset,
     batch_size=batch_size,
-    collate_fn=custom_collate_fn,
+    collate_fn=customized_collate_fn,
     shuffle=True,
     drop_last=True,
     num_workers=num_workers
@@ -115,17 +115,17 @@ val_dataset = InstructionDataset(val_data, tokenizer)
 val_loader = DataLoader(
     val_dataset,
     batch_size=batch_size,
-    collate_fn=custom_collate_fn,
+    collate_fn=customized_collate_fn,
     shuffle=True,
     drop_last=True,
     num_workers=num_workers
 )
 
-test_datset = InstructionDataset(val_data, tokenizer)
+test_datset = InstructionDataset(test_data, tokenizer)
 test_loader = DataLoader(
     test_datset,
     batch_size=batch_size,
-    collate_fn=custom_collate_fn,
+    collate_fn=customized_collate_fn,
     shuffle=True,
     drop_last=True,
     num_workers=num_workers
