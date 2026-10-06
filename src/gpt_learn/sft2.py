@@ -56,7 +56,7 @@ def custom_collate_fn(
     pad_token_id=50256,
     ignore_index=-100,
     allowed_max_length=None,
-    device="cpu"
+    device="CUDA"
 ):
     batch_max_length = max(len(item) for item in batch)
     inputs_lst, targets_lst = [], []
@@ -148,6 +148,7 @@ settings, params = download_and_load_gpt2(
 
 model = GPTModel(BASIC_CONFIG)
 load_weights_into_gpt(model, params)
+model.to(device)
 model.eval()
 
 # 训练前打印输出
