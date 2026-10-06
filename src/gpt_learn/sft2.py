@@ -151,6 +151,16 @@ load_weights_into_gpt(model, params)
 model.to(device)
 model.eval()
 
+# 打印数据部分
+
+print("len(data) =", len(data))
+print("data[1045] =", data[1045])
+
+hits = [(i, e["instruction"], e["output"]) for i, e in enumerate(data)
+        if "passive" in e["instruction"].lower()]
+print("passive 样本数 =", len(hits))
+for h in hits: print(h)
+
 # 训练前打印输出
 
 torch.manual_seed(123)
