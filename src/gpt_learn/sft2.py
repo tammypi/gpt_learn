@@ -3,9 +3,10 @@ import torch
 import tiktoken
 from torch.utils.data import Dataset, DataLoader
 from functools import partial
-from gpt_download import download_and_load_gpt2, text_to_token_ids, token_ids_to_text
+from gpt_download import download_and_load_gpt2
 from gpt import GPTModel, generate_text_simple
 from use_gpt2 import load_weights_into_gpt
+from train import text_to_token_ids, token_ids_to_text
 
 with open("./instruction-data.json", "r") as f:
     data = json.loads(f.read())
