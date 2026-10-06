@@ -58,6 +58,9 @@ python sft1.py
 
 # 加载垃圾邮件二分类模型用于测试
 python sft1_test.py
+
+# 指令微调代码
+python sft2.py
 ```
 
 ## 项目结构
@@ -78,6 +81,7 @@ gpt_learn/
 │       ├── sft1_dataset.py       # 处理垃圾邮件数据集用于微调
 │       ├── sft1.py               # 修改gpt模型并进行垃圾邮件二分类微调
 │       ├── sft1_test.py          # 加载垃圾邮件二分类模型用于测试
+│       ├── sft2.py               # 指令微调代码
 │       └── the-verdict.txt       # 训练语料（《The Verdict》）
 └── README.md
 ```
